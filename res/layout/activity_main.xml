@@ -17,6 +17,7 @@
   
         </ImageView>  
         <TextView  
+            android:id="@+id/title_city_name"
             android:layout_height="45.0dp"  
             android:layout_width="match_parent"  
   			
@@ -83,6 +84,7 @@
 	                android:id="@+id/todayinfo1_cityName"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
+	                android:gravity="center"
 	                android:text="北京"
 	                android:textColor="#FFFFFF"
 	                android:textSize="47.0sp" />
@@ -182,6 +184,7 @@
                 android:layout_toRightOf="@id/todayinfo2_linear1">  
   
                 <TextView  
+                    android:id="@+id/todayinfo2_week"
                     android:layout_width="wrap_content"  
                     android:layout_height="wrap_content"  
   
