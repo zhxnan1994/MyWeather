@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="top"
     android:orientation="vertical" >
+
 	<RelativeLayout 
 	    android:id="@+id/title_relative"
 	    android:layout_width="match_parent"
@@ -153,7 +155,7 @@
 	            android:layout_alignBottom="@+id/todayinfo1_linear3"
 	            android:layout_marginLeft="30dp"
 	            android:layout_toRightOf="@+id/todayinfo1_linear1"
-	            android:src="@drawable/pm25_0_50" />
+	            android:src="@drawable/biz_plugin_weather_0_50" />
 
 	    </RelativeLayout>
 	     <RelativeLayout  
@@ -220,6 +222,136 @@
                     android:textSize="20.0sp">  
                 </TextView>  
             </LinearLayout>  
-        </RelativeLayout>  
+        </RelativeLayout>
+  	<RelativeLayout 
+	    android:layout_below="@id/todayinfo2_relative"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	     	<LinearLayout android:id="@+id/day1_layout" 
+	    	android:layout_width="wrap_content" 
+	    	android:layout_height="wrap_content" 
+	    	android:layout_alignParentLeft="true" 
+	    	android:orientation="vertical">
+
+			<TextView
+		    android:id="@+id/day1_week"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Monday"
+		    android:textColor="#ffffff"
+		    android:textSize="20sp" />
+			
+			<TextView
+		    android:id="@+id/day1_tempture"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="9~12"
+		    android:textColor="#ffffff"
+		    android:textSize="20sp" />
+			
+			<TextView
+		    android:id="@+id/day1_weatherstate"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Sunshine"
+		    android:layout_gravity="center"
+		    android:textColor="#ffffff"
+		    android:textSize="20sp" />
+			
+			<TextView
+		    android:id="@+id/day1_windstate"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Northern"
+		    android:textColor="#ffffff"
+		    android:textSize="20sp" />
+
+			</LinearLayout>
+	        <LinearLayout
+	        android:layout_alignParentRight="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/day3_layout"
+	        android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/day3_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monday"
+                android:textColor="#ffffff"
+                android:textSize="20sp" >
+            </TextView>
+	        <TextView
+		    	android:id="@+id/day3_tempture"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="9~12"
+		    	android:textColor="#ffffff"
+		   	 android:textSize="20sp" />
+			
+			<TextView
+		    	android:id="@+id/day3_weatherstate"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="Sunshine"
+		    	android:layout_gravity="center"
+		    	android:textColor="#ffffff"
+		   	 android:textSize="20sp" />
+			
+			<TextView
+		    	android:id="@+id/day3_windstate"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="Northern"
+		   		android:textColor="#ffffff"
+		    	android:textSize="20sp" />
+	        </LinearLayout>
+
+	        <LinearLayout
+	            android:id="@+id/day2_layout"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentTop="true"
+	            android:layout_centerHorizontal="true" 
+	            android:orientation="vertical">
+
+	            <TextView
+	                android:id="@+id/day2_week"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Monday"
+	                android:textColor="#ffffff"
+	                android:textSize="20sp" />
+	           <TextView
+		    	android:id="@+id/day2_tempture"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="9~12"
+		    	android:textColor="#ffffff"
+		   	 android:textSize="20sp" />
+			
+			<TextView
+		    	android:id="@+id/day2_weatherstate"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="Sunshine"
+		    	android:layout_gravity="center"
+		    	android:textColor="#ffffff"
+		   	 android:textSize="20sp" />
+			
+			<TextView
+		    	android:id="@+id/day2_windstate"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="Northern"
+		   		android:textColor="#ffffff"
+		    	android:textSize="20sp" />
+	        </LinearLayout>
+
 	</RelativeLayout>
+	</RelativeLayout>
+	
+	
+
 </RelativeLayout>

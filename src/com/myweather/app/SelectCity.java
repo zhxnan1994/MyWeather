@@ -3,9 +3,13 @@ package com.myweather.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myweather.app.R;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +30,8 @@ public class SelectCity extends Activity implements OnClickListener{
 	private String updateCityCode="-1";
 	private EditText searchCityName;
 	private String searchName="";
+	private SharedPreferences pref;
+	private SharedPreferences.Editor editor;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -35,7 +41,8 @@ public class SelectCity extends Activity implements OnClickListener{
 		cityListLv=(ListView) findViewById(R.id.selectcity_lv);
 		searchBtn=(ImageView) findViewById(R.id.select_btn);
 		searchCityName=(EditText) findViewById(R.id.selectcity_edittext);
-		
+		pref=getSharedPreferences("CityCodePreference",Activity.MODE_PRIVATE);//存储选择的城市代码
+		editor=pref.edit();
 		//Log.d("SelectCity.onCreate","searchName"+searchName);
 		mApplication=(MyApplication) getApplication();
 		mCityList=mApplication.getCityList();
@@ -53,9 +60,11 @@ public class SelectCity extends Activity implements OnClickListener{
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				// TODO Auto-generated method stub
 				updateCityCode=mCityList.get(position).getNumber();
+				editor.putString("citycode",updateCityCode);
+				editor.commit();
 				Log.d("SelectActivity.onItemClickListener","CityCode: "+updateCityCode); 
 				Intent intent=new Intent(SelectCity.this,MainActivity.class);
-				intent.putExtra("city_code", updateCityCode);
+				//intent.putExtra("city_code", updateCityCode);
 				startActivity(intent);
 			}
 			
@@ -76,9 +85,11 @@ public class SelectCity extends Activity implements OnClickListener{
 			Log.d("SelectActivity","SearchedName: "+searchName);
 			if(searchName!=null){
 				updateCityCode=mApplication.getCityCode(searchName);
+				editor.putString("citycode",updateCityCode);
+				editor.commit();
 				Log.d("SelectActivity","updateCityCode"+updateCityCode);
 				Intent intent=new Intent(SelectCity.this,MainActivity.class);
-				intent.putExtra("city_code", updateCityCode);
+				//intent.putExtra("city_code", updateCityCode);
 				startActivity(intent);
 			}
 		default:
