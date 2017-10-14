@@ -7,6 +7,9 @@ import java.net.URL;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationListener;
 import com.myweather.app.R;
 
 import android.app.Activity;
@@ -27,15 +30,26 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener{
 	TodayWeather todayWeather = null;
-	private static final String CITYCODE = "101170101";
-	private ImageView updateBtn,cityManager;
+	private static final String CITYCODE = "";
+	private ImageView updateBtn,cityManager,cityLocate;
 	private TextView cityT,timeT,humidityT,weekT,pmDataT,pmQualityT,temperatureT,
 	climateT,windT,cityNameT;
 	private ImageView weatherImg,PM25Img;
 	private String updateCityCode;
 	private SharedPreferences pref;
+    /**
+     * 未来三天天气信息
+     */
 	private TextView day1_week,day2_week,day3_week,day1_tempture,day1_weatherstate,day1_windstate,
 	day2_tempture,day2_weatherstate,day2_windstate,day3_tempture,day3_weatherstate,day3_windstate;
+    /**
+     * 使用高德地图接口，确认所在位置
+     */
+    private AMapLocationClient mLocationClient = null;
+    private String cityLocateText="";
+    //获取数据库查询定位城市的城市编码
+    private MyApplication myApplication;
+
 	private Handler mHandler=new Handler(){
 		public void handleMessage(Message msg){
 			switch(msg.what){
@@ -55,7 +69,10 @@ public class MainActivity extends Activity implements OnClickListener{
 		updateBtn.setOnClickListener(this);
 		cityManager=(ImageView) findViewById(R.id.title_city_manager);
 		cityManager.setOnClickListener(this);
-		
+		cityLocate=(ImageView) findViewById(R.id.title_city_locate) ;
+        cityLocate.setOnClickListener(this);
+        myApplication=(MyApplication) getApplication();
+
 		initView();
 		if(NetCheck.getNetState(this)==NetCheck.NET_NONE){
 			Toast.makeText(this, "network offline", Toast.LENGTH_SHORT).show();
@@ -77,6 +94,21 @@ public class MainActivity extends Activity implements OnClickListener{
 			getWeatherDatafromNet(updateCityCode);
 		}*/
 	}
+	public void getLocation(){
+           mLocationClient = new AMapLocationClient(getApplicationContext());
+           mLocationClient.startLocation();
+           mLocationClient.setLocationListener(locationListener);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                   updateCityCode = myApplication.getCityCode(cityLocateText);
+                    getWeatherDatafromNet(updateCityCode);
+                }
+            },2000);
+
+
+
+    }
 	void initView()  
     {  
         //title  
@@ -170,21 +202,26 @@ public class MainActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()){
-		case R.id.title_city_update:
-			updateCityCode=pref.getString("citycode","");
-			if(!updateCityCode.equals("")){
-				getWeatherDatafromNet(updateCityCode);
-			}else{
-				getWeatherDatafromNet(CITYCODE);
-			}
+		    case R.id.title_city_update:
+		        if(cityLocateText==""){
+			        updateCityCode=pref.getString("citycode","");}
+			        if(!updateCityCode.equals("")){
+				        getWeatherDatafromNet(updateCityCode);
+			        }else{
+				        getWeatherDatafromNet(CITYCODE);
+			        }
 			/*updateBtn.setImageResource(R.drawable.title_city_update_2);
 			if(!updateBtn.isPressed())
 				updateBtn.setImageResource(R.drawable.title_city_update);*/
-			break;
-		case R.id.title_city_manager:
-			Intent intent=new Intent(MainActivity.this,SelectCity.class);
-			startActivity(intent);
-			break;
+			        break;
+		    case R.id.title_city_manager:
+			    Intent intent=new Intent(MainActivity.this,SelectCity.class);
+			    startActivity(intent);
+			    break;
+            case R.id.title_city_locate:
+                getLocation();
+
+                break;
 		default:
 			break;
 		}
@@ -510,5 +547,39 @@ public class MainActivity extends Activity implements OnClickListener{
             return true;  
         }  
         return super.onKeyDown(keyCode, event);  
-    }  
+    }
+    AMapLocationListener locationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation location) {
+
+            if (null != location) {
+
+                StringBuffer sb = new StringBuffer();
+                //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
+                if(location.getErrorCode() == 0){
+                    cityLocateText=location.getCity();
+                    cityLocateText=cityLocateText.substring(0,cityLocateText.length()-1);
+                    //Toast.makeText(getApplicationContext(),"当前城市为"+sb.toString()+location.getCityCode(),Toast.LENGTH_LONG).show();
+                }
+            } else {
+                cityLocateText="定位失败";
+            }
+        }
+    };
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyLocation();
+    }
+
+    private void destroyLocation(){
+        if (null != mLocationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            mLocationClient.onDestroy();
+            mLocationClient = null;
+
+        }
+    }
 }

@@ -24,4 +24,5 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:26.0.0-alpha1'
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile files('build/maplocation/AMap_Location_V3.6.1_20171012.jar')
 }
